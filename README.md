@@ -1,59 +1,44 @@
-# Óhaj Fodrász Oktatóközpont
+# Hairdressing Training Centre
 
-## Áttekintés
+## Overview
 
-Az alkalmazás egy fodrász oktatóközpont számára nyújt segítséget, annak érdekében, hogy kezelni tudják a tanulókat, a kurzusokat, oktatókat és oktatási helyszíneket. Továbbá lehetőség van a kurzusok menedzselésére. Az alkalmazás email-en értesíti a tanulókat a kurzusra való jelentkezésről, arról való törléséről, valamint a kurzus elvégzéséről és a tanúsítvány részleteiről. Az alkalmazás az oktatásokra való jelentkezések átláthatóbbá tételét, a tanulók nyilvántartását és további tanulók célirányosabb megszólítását segíti.
+The app provides support for a hairdressing training centre to manage students, courses, instructors and training locations. Furthermore, it is possible to manage courses. The app notifies learners by email of course enrolment and cancellation, course completion and certificate details. The application helps to make enrolment in courses more transparent, to keep track of learners and to better target additional learners.
 
-## Az alkalmazás struktúrája
+## The structure of the application
 
-Egy tanulónak több kurzusa, egy kurzusnak több tanulója is lehet. A kurzusokhoz kötelező tantermet rendelni, egy kurzusnak egy tanterme lehet. Egy kurzust egy oktató tart, egy oktatóhoz több kurzus is tartozhat. Egy tanuló több tanúsítványt is megszerezhet, több kurzus elvégzésével, egy tanúsítvány viszont csak egy tanuló számára kiállítható.
+One student can have several courses, one course can have several students. Courses must have a classroom, a course can have one classroom. One course can be taught by one instructor, one instructor can have several courses. A student can obtain several certificates by completing several courses, but a certificate can only be issued to one student.
 ___
 ![entitiesrelationships.jpg](entitiesrelationships.jpg)
 
-## Az alkalmazás működése
+## How the application works
 
-### Alap adatkezelési funkciók
+### Basic data management functions
 
-Az alkalmazás entitásain mind végrehajthatók a CRUD műveletek. Új résztvevő (tanuló és oktató) rögzítésekor a név, levelezési cím, telefonszám és az email cím kötelezően megadandó. Az email címnek egyedinek kell lennie. Kurzus szerkesztésekor kötelező oktatási helyszínt megjelölni, ellenőrzésre kerül a kötelezően megadandó kezdő és végdátum alapján a tanterem elérhetősége. Továbbá a kurzus címét, hosszát, típusát és árát kötelező feltüntetni. Oktatót később is hozzá lehet rendelni a kurzusokhoz. 
+CRUD operations can be performed on all entities in the application. When registering a new participant (student and instructor), the name, mailing address, phone number and email address are mandatory. The email address must be unique. When editing a course, it is mandatory to specify the teaching location, the availability of the classroom will be checked based on the mandatory start and end dates. In addition, the title, length, type and price of the course must be indicated. Instructors can be assigned to courses at a later stage. 
 
-### Kurzusok menedzselése
+### Course management
 
-A kurzusmenedzsment funkción belül a tanulók képzésekre való jelentkezését lehet koordinálni. Amikor új tanuló szeretne képzésre jelentkezni, először regisztrálni kell az adatait a rendszerben, és utána indítható a kurzusokra való jelentkezés. Jelentkezés csak még nem befejezett kurzusra lehetséges.
+Within the course management function, you can coordinate the enrolment of students in courses. When a new student wants to enrol for a course, he/she must first register his/her details in the system and then the enrolment for courses can be started. Registration is only possible for courses that have not yet been completed.
 
-Lehetséges egyéni vagy csoportos, gyakorlati és elméleti oktatáson való részvétel. Az alkalmazás tárolja az adott helyszín maximum kapacitását, és ha a jelentkezők száma elérte a maximumot, több tanuló nem tud jelentkezni az oktatásra. 
+It is possible to attend individual or group courses, both practical and theoretical. The application stores the maximum capacity of a given location and once the maximum number of applicants has been reached, no more students can enrol for the course. 
 
-Kurzus elvégzői tanúsítványt kapnak. Amennyiben egy tanuló nem tudja elvégezni a kurzust, törölhető a kurzus tanulói listájából.
+Course completers receive a certificate. If a student cannot complete the course, they can be removed from the list of students.
 
-A kurzusmenedzsment funkción belüli műveletekről email-es tájékoztatást kapnak a tanulók.
+Learners will be informed by email about the actions within the course management function.
 
-### Lekérdezések
+### Queries
 
-Az oktatások szempontjából hasznos szűrési lehetőségek érhetők el. Lekérdezhető a résztvevői lista. Itt nem jelenít meg valamennyi résztvevőről tárolt adatot az alkalmazás. Azok az adatok kerültek megjelenítésre, amelyek a képzés szervezője és az oktató számára a képzés folyamatában fontosak lehetnek. Listázhatóak a tanulók és oktatók kurzusai. A képzések listáját lehetséges azok státusza (befejezett, folyamatban, tervezett) alapján szűrni. Elérhetőek a megszerzett tanúsítványok, melyeket tanulói azonosítószám alapján is le lehet kérdezni.
+Useful filtering options are available for training purposes. You can query the list of participants. Here, the application does not display all data stored for participants. The data displayed are those which may be of interest to the training organiser or the trainer in the course of the training. The courses of the trainees and trainers can be listed. It is possible to filter the list of courses by their status (completed, in progress, planned). Certificates obtained are available and can be queried by student ID number.
 
-## Alkalmazott technológiák
+## Applied technologies
 
-| funkció | megvalósítás |
+| function | implementation |
 | ------ | ------ |
-| projekt | Spring Boot, Gradle, Java 8 |
-| adatbázis-kezelés | H2 |
-| adatbázis séma verziókezelése  | Flyway |
-| konténerizáció | Docker |
-| tesztelés | Junit5, MockMVC, Mockito |
-|validáció| Javax|
-| dokumentáció | Swagger
-
-___
-
-## Alkalmazás elindítása
-
-Docker környezetben az alábbi paranccsal letöltődik a program image fájlja Docker Hub-ról, majd elindul az alkalmazás:
-`docker run -p 8080:8080 geli1519/vocseikati_masterwork .`
-Ezután az adatbázist H2 konzolon keresztül érjük el a http://localhost:8080/h2-console úton. Csatlakozni az alábbi
-beállításokkal tudunk:
-
-| Driver Class | org.h2.Driver |
-| :---: | :---: |
-| __JDBC URL__ | __jdbc:h2:mem:coursecenterdb__ |
-| __User Name__ | __sa__ |
-| __Password__ | __[none]__
+| project | Spring Boot, Gradle, Java 8 |
+| database management | H2 |
+| database schema versioning  | Flyway |
+| containerization | Docker |
+| testing | Junit5, MockMVC, Mockito |
+| validation | Javax|
+| documentation | Swagger
 
